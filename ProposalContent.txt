@@ -1,0 +1,48 @@
+TITLE
+
+ABSTRACT
+
+INTRODUCTION
+
+RELATED WORD??
+    - Python Libraries for Facial Recognition and Feature Extraction:
+        i. face_recognition
+        ii. open_cv
+        iii. Deep EXtraction (Caffe not Python)
+        iv. TensorFlow python
+
+METHODOLOGY
+    - Research Questions
+        i. gender prediction
+        ii. racial prediction?? (controversial?)
+        iii. transferable to other datasets
+        iv. age prediction
+        v. happiness classification??
+        vi. eyes closed??
+        vii. eye colour prediction
+
+    - Data Preperation & Cleaning
+    - Data Analysis
+
+EXPECTED RESULTS
+
+DISCUSSION??
+
+CONCLUSION
+
+1. Applicability/Feasability of the work
+2. Type of information you can get from a headshot
+    - Race
+    - Eyecolor
+    - gender
+3. Comparisons between different apis (amazon and google)
+4. Add noise to the datasets
+    - Quality of image
+
+Quality of image, size of image, person race, image filters, 
+
+BIDMA must fill the template
+
+Risk: Google API is not accurate enough
+    - Not enough data to train the model
+- Trying to collect as much data as possible to make a very general model
