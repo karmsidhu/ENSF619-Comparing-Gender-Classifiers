@@ -1,5 +1,4 @@
 !GoogleVisionAPI/GoogleCloudCredentials
 GoogleVisionAPI/GoogleCloudCredentials/*
 !GoogleVisionAPI/GoogleCloudCredentials/README.txt
-.vscode/*
-
+.vscode/settings.json
