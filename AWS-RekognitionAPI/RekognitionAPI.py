@@ -11,4 +11,3 @@ def create_resource(name:str = 'rekognition', access_keys_file_path:str =
         aws_secret_access_key = aws_secret_access_key, region_name = region)
 
 client = create_resource()
-
