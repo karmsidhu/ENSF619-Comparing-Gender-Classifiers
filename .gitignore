@@ -1,4 +1,7 @@
+.vscode/settings.json
 !GoogleVisionAPI/GoogleCloudCredentials
 GoogleVisionAPI/GoogleCloudCredentials/*
 !GoogleVisionAPI/GoogleCloudCredentials/README.txt
-.vscode/settings.json
+!AWS-RekognitionAPI/AWSCredentials
+AWS-RekognitionAPI/AWSCredentials/*
+!AWS-RekognitionAPI/AWSCredentials/README.txt
