@@ -2,6 +2,10 @@ import boto3
 
 def create_resource(name:str = 'rekognition', access_keys_file_path:str = 
     'AWS-RekognitionAPI/AWSCredentials/accessKeys.csv', region:str = 'us-west-1'):
+    """
+    For a full list of AWS regions see:
+    https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Concepts.RegionsAndAvailabilityZones.html
+    """
     with open(access_keys_file_path, 'r') as keys:
         keys.readline()
         access_keys = keys.readline().split(',')
