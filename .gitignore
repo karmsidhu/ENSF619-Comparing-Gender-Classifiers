@@ -5,4 +5,4 @@ GoogleVisionAPI/GoogleCloudCredentials/*
 !AWS-RekognitionAPI/AWSCredentials
 AWS-RekognitionAPI/AWSCredentials/*
 !AWS-RekognitionAPI/AWSCredentials/README.txt
-ImageData
+ImageData/*
