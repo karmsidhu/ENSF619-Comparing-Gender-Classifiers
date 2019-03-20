@@ -1,7 +1,8 @@
 import boto3
+import base64
 
 def create_resource(name:str = 'rekognition', access_keys_file_path:str = 
-    'AWS-RekognitionAPI/AWSCredentials/accessKeys.csv', region:str = 'us-west-1'):
+    'AWS-RekognitionAPI/AWSCredentials/accessKeys.csv', region:str = 'us-east-2'):
     """
     For a full list of AWS regions see:
     https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Concepts.RegionsAndAvailabilityZones.html
@@ -15,3 +16,9 @@ def create_resource(name:str = 'rekognition', access_keys_file_path:str =
         aws_secret_access_key = aws_secret_access_key, region_name = region)
 
 client = create_resource()
+
+with open("ImageData/img1.JPG", "rb") as image_file:
+    img = image_file.read()
+
+response = client.detect_faces(Image={"Bytes":img}, Attributes = ["ALL"])
+print(response)
