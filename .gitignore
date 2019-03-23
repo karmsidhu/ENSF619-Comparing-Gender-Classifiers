@@ -1,10 +1,4 @@
 .vscode/settings.json
-!API_Project/GoogleCloudCredentials
-API_Project/GoogleCloudCredentials/*
-!API_Project/GoogleCloudCredentials/README.txt
-!API_Project/AWSCredentials
-API_Project/AWSCredentials/*
-!API_Project/AWSCredentials/README.txt
 ImageData/*
 .ipynb_checkpoints/*
 API_Project/__pycache__/*

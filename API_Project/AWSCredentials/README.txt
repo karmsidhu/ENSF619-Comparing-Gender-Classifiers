@@ -1,1 +1,0 @@
-Please add your AWS Access Keys into this folder
