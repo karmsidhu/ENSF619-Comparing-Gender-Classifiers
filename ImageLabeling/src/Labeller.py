@@ -27,18 +27,17 @@ def main():
         if img not in list(img_dict.keys()):
             imgs.append(img)
     print("Starting Labelling Process. Enter EXIT to stop and Save.")
-    print("Acceptable inputs are: happy, sad, angry, disgusted, " + 
-        "confused, calm, surprised")
+    print("Acceptable inputs are: white, indian, asian, black, " + 
+        "hispanic, native, NA")
     for img in imgs:
         user_input = 0
-        emotions = ["happy", "sad", "angry", "disgusted", "confused", "calm", 
-            "surprised"]
+        races = ["white", "indian", "asian", "black", "hispanic", "native", "NA"]
         os.system("open ImageData/" + img)
         while user_input != 1234:
-            user_input = input("What emotion? (EXIT to stop) ")
+            user_input = input("What race? (EXIT to stop) ")
             if user_input == "EXIT":
                 break
-            elif user_input in emotions:
+            elif user_input in races:
                 img_dict[img] = user_input
                 user_input = 1234
             else:
