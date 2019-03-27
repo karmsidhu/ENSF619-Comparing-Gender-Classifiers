@@ -40,7 +40,7 @@ class Rekognition:
                     print("Error")
                     responses[path] = None
                 counter += 1
-                print("AWS - " + f"{counter/img_nums*100}% Processed...")
+                print("AWS - " + f"{counter/img_nums*100}% ({counter}/{img_nums}) Processed...")
                 if counter >= img_nums:
                     break
         else:

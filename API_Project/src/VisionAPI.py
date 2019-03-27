@@ -59,7 +59,7 @@ class Vision:
                     print("Error")
                     responses[path] = None
                 counter += 1
-                print("GCV - " + f"{counter/img_nums*100}% Processed...")
+                print("GCV - " + f"{counter/img_nums*100}% ({counter}/{img_nums}) Processed...")
                 if counter >= img_nums:
                     break
         else:
