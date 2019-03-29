@@ -34,9 +34,9 @@ def make_master_files(fm, aws_data, gcv_data, aws_dir:str, gcv_dir:str):
 
 def main():
 	# Set directories -------
-	aws_label_dir = "API_Project/AWS-Standard-Labels"
+	aws_label_dir = "API_Project/AWS-Rescale40x40-Labels"
 	gcv_label_dir = "API_Project/GCV-Standard-Labels"
-	img_dir = "Images/Standard-Size"
+	img_dir = "Images/Rescale-40x40"
 	
 	# Instantiate Objects -------
 	fm = FileManager()
@@ -58,7 +58,7 @@ def main():
 	# remove_repeats_vision(gcv_data, gcv_img_data)
 
 	# Label using Rekognition -------
-	# aws_response = aws_Rekognition.label_images(byte_imgs = aws_img_data, img_nums = 600)
+	# aws_response = aws_Rekognition.label_images(byte_imgs = aws_img_data, img_nums = 1000)
 	# if aws_response != None:
 	# 	fm.to_json(json_dict = aws_response, 
 	# 		dir_name = aws_label_dir)
