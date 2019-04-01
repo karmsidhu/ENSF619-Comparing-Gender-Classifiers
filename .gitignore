@@ -1,4 +1,4 @@
 .vscode/settings.json
-ImageData/*
+Images/*
 .ipynb_checkpoints/*
 API_Project/src/__pycache__/*

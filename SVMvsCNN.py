@@ -8,50 +8,49 @@ def loadJson(filePath:str):
     return jsonDict
 
 def makeMasterFile():
-    standardSizeFile = "API_Project/AWS-Standard-Labels/All-Labels.json"
-    rescale80File = "API_Project/AWS-Rescale80x80-Labels/All-Labels.json"
-    rescale40File = "API_Project/AWS-Rescale40x40-Labels/All-Labels.json"
+    rescale100File = "API_Project/AWS-Rescale100x100-Labels/All-100x100-Labels.json"
+    rescale80File = "API_Project/AWS-Rescale80x80-Labels/All-80x80-Labels.json"
+    rescale40File = "API_Project/AWS-Rescale40x40-Labels/All-40x40-Labels.json"
     svmAndActualFile = "svmAndActual.json"
 
-    stdLabels = loadJson(standardSizeFile)
+    rescale100Labels = loadJson(rescale100File)
     rescale80Labels = loadJson(rescale80File)
     rescale40Labels = loadJson(rescale40File)
     svmAndActualLabels = loadJson(svmAndActualFile)
 
-    imgNames = list(stdLabels.keys())
-    keyNames = ["actual", "original", "aws-40x40", "aws-80x80", "svm"]
+    imgNames = list(svmAndActualLabels.keys())
+    keyNames = ["actual", "aws-100x100", "aws-80x80", "aws-40x40", "svm"]
 
     data = dict()
     
     for img in imgNames:
         data[img] = {
             keyNames[0]: svmAndActualLabels[img]["Actual"],
-            keyNames[1]: stdLabels[img]["FaceDetails"],
-            keyNames[2]: rescale40Labels[img],
-            keyNames[3]: rescale80Labels[img],
+            keyNames[1]: rescale100Labels[img],
+            keyNames[2]: rescale80Labels[img],
+            keyNames[3]: rescale40Labels[img],
             keyNames[4]: svmAndActualLabels[img]["Predicted"]
         }
     
     json_string = json.dumps(data, sort_keys=True, indent=4, 
         separators=(',',':'))
     
-    with open("test.json", "w") as f:
+    with open("master-03-31-2019.json", "w") as f:
         f.write(json_string)
 
 def getAccuracy(data, imgNames):
     genderData = dict()
     genderData["actual"] = {"male":0,"female":0}
-    genderData["original"] = {"male":0,"female":0}
-    genderData["aws-40x40"] = {"male":0,"female":0}
-    genderData["aws-80x80"] = {"male":0,"female":0}
+    genderData["aws-100x100"] = {"male":0,"female":0}
     genderData["svm"] = {"male":0,"female":0}
-    count = 0
+    genderData["aws-80x80"] = {"male":0,"female":0}
+    genderData["aws-40x40"] = {"male":0,"female":0}
     for img in imgNames:
         try:
             if data[img]["actual"] == 1:
                 genderData["actual"]["male"] += 1
-                if data[img]["original"]["FaceDetails"][0]["Gender"]["Value"] == "Male":
-                    genderData["original"]["male"] += 1
+                if data[img]["aws-100x100"]["FaceDetails"][0]["Gender"]["Value"] == "Male":
+                    genderData["aws-100x100"]["male"] += 1
                 if (data[img]["aws-40x40"]["FaceDetails"][0]["Gender"]["Value"] == "Male" or
                     len(data[img]["aws-40x40"]["FaceDetails"]) == 0):
                     genderData["aws-40x40"]["male"] += 1
@@ -61,18 +60,16 @@ def getAccuracy(data, imgNames):
                     genderData["svm"]["male"] += 1
             else:
                 genderData["actual"]["female"] += 1
-                if data[img]["original"]["FaceDetails"][0]["Gender"]["Value"] == "Female":
-                    genderData["original"]["female"] += 1
+                if data[img]["aws-100x100"]["FaceDetails"][0]["Gender"]["Value"] == "Female":
+                    genderData["aws-100x100"]["female"] += 1
                 if (data[img]["aws-40x40"]["FaceDetails"][0]["Gender"]["Value"] == "Female" or
                     len(data[img]["aws-40x40"]["FaceDetails"]) == 0):
                     genderData["aws-40x40"]["female"] += 1
                 if data[img]["aws-80x80"]["FaceDetails"][0]["Gender"]["Value"] == "Female":
                     genderData["aws-80x80"]["female"] += 1
-                if data[img]["svm"] == 1:
+                if data[img]["svm"] == 0:
                     genderData["svm"]["female"] += 1
-            count += 1
         except:
-            # Will throw an error when aws couldn't label so its not counted
             pass
 
     return genderData
@@ -99,17 +96,17 @@ def plotGenderData(genderData):
     plt.bar(r2, females, color='m', width=barWidth, edgecolor='white', 
         label='Females')
     
-    plt.xticks([r + barWidth/2 for r in range(len(keys))], ["AWS-Standard", 
-        "AWS-40x40", "AWS-80x80", "SVM-Standard"])
+    plt.xticks([r + barWidth/2 for r in range(len(keys))], ["CNN-100x100","SVM-100x100","CNN-80x80","CNN-40x40"])
+    plt.ylim(0,100)
     plt.ylabel("Accuracy (%)")
     plt.grid(alpha = 200)
-    plt.title("Comparing Accuracies")
+    plt.title("Comparing Accuracies between CNN and SVM")
     plt.legend()
     plt.show()
     
 def getConfidences(data, imgNames):
-    age = dict({"original":[], "aws-40x40":[], "aws-80x80":[]})
-    gender = dict({"original":[], "aws-40x40":[], "aws-80x80":[]})
+    age = dict({"aws-100x100":[], "aws-80x80":[], "aws-40x40":[]})
+    gender = dict({"aws-100x100":[], "aws-80x80":[], "aws-40x40":[]})
 
     for img in imgNames:
         for key in list(age.keys()):
@@ -131,24 +128,26 @@ def getConfidences(data, imgNames):
     plt.ylabel("Confidence (%)")
     plt.ylim(0,100)
     plt.xlabel("Picture Resolution")
-    plt.xticks([0,1,2],["Standard", "40x40", "80x80"])
-    plt.title("Gender Prediction Confidence")
+    plt.xticks([0,1,2],["100x100", "80x80", "40x40"])
+    plt.title("Gender Prediction Confidence using a CNN")
     plt.show()
 
     plt.bar(keys, avgAgeRange, color = 'm')
     plt.ylabel("Predicted Age Range")
     plt.xlabel("Picture Resolution")
-    plt.xticks([0,1,2],["Standard", "40x40", "80x80"])
+    plt.xticks([0,1,2],["100x100", "80x80", "40x40"])
     plt.title("Age Prediction Range")
     plt.show()
 
 def main():
-    masterFile = "master-labels.json"
+    masterFile = "master-03-31-2019.json"
     data = loadJson(masterFile)
     imgNames = list(data.keys())
-    # print(data[imgNames[0]]["original"])
-    # keyNames = ["actual", "original", "aws-40x40", "aws-80x80", "svm"]
-    # plotGenderData(getAccuracy(data, imgNames))
+
+    # keyNames = ["actual", "aws-100x100", "aws-40x40", "aws-80x80", "svm"]
+    # print(data[imgNames[0]]["aws-100x100"]["FaceDetails"])
+    plotGenderData(getAccuracy(data, imgNames))
     getConfidences(data, imgNames)
 
 main()
+# makeMasterFile()

@@ -1,7 +1,7 @@
 from FileManager import FileManager
 from RekognitionAPI import Rekognition
 from VisionAPI import Vision
-
+from PIL import Image
 
 def load_prev_data(fm:FileManager, aws_dir:str, gcv_dir:str):
 	aws_data = fm.load_labelled_data(aws_dir)
@@ -32,11 +32,20 @@ def make_master_files(fm, aws_data, gcv_data, aws_dir:str, gcv_dir:str):
 	fm.to_json(json_dict = gcv_data, 
 		dir_name = gcv_dir)
 
+def resize(img_dir:str):
+	fm = FileManager()
+	images = fm.get_file_names(dir = img_dir)
+
+	for img in images:
+		im = Image.open(img_dir+'/'+img)
+		im = im.resize((40, 40), Image.ANTIALIAS) # the tuple is the desired resize dimension
+		im.save("resized/"+img)
+
 def main():
 	# Set directories -------
-	aws_label_dir = "API_Project/AWS-Rescale40x40-Labels"
+	aws_label_dir = "API_Project/AWS-Rescale100x100-Labels"
 	gcv_label_dir = "API_Project/GCV-Standard-Labels"
-	img_dir = "Images/Rescale-40x40"
+	img_dir = "Images/40x40"
 	
 	# Instantiate Objects -------
 	fm = FileManager()
@@ -54,11 +63,11 @@ def main():
 	# 	file_names = fm.get_file_names(dir = img_dir))
 
 	# Remove already labelled data -------
-	remove_repeats_rekog(aws_data, aws_img_data)
+	# remove_repeats_rekog(aws_data, aws_img_data)
 	# remove_repeats_vision(gcv_data, gcv_img_data)
 
 	# Label using Rekognition -------
-	# aws_response = aws_Rekognition.label_images(byte_imgs = aws_img_data, img_nums = 1000)
+	# aws_response = aws_Rekognition.label_images(byte_imgs = aws_img_data, img_nums = 500)
 	# if aws_response != None:
 	# 	fm.to_json(json_dict = aws_response, 
 	# 		dir_name = aws_label_dir)
@@ -74,3 +83,4 @@ def main():
 
 
 main()
+# resize("Images/Original-Size")
