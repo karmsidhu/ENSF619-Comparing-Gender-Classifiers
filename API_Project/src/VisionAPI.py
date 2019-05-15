@@ -1,13 +1,26 @@
-from FileManager import FileManager
-import os
-import requests
+"""For connecting to Google's Cloud Vision to label images
+
+Was not utilized in the project significantly as GCV did not provide adequate
+information
+
+Dependencies:
+    base64
+    json
+    os
+    requests
+    FileManager
+"""
+
+
 import base64
 import json
+import os
 
+import requests
+from FileManager import FileManager
 
 class Vision:
-    def __init__(self, API_key_path:str = 
-        "../APICredentials/api_key.txt"):
+    def __init__(self, API_key_path:str = "../APICredentials/api_key.txt"):
         '''
         Puts the API Key in an environment variable.
         Sets the HTTP url for Vision API's
@@ -24,7 +37,7 @@ class Vision:
         '''
         Loads the request format for API requests
         '''
-        with open("API_Project/gcv_request.json", "r") as req:
+        with open("gcv_request.json", "r") as req:
            self._request = json.load(req)
 
     def _add_image_to_payload(self, img_bytes):

@@ -1,17 +1,45 @@
-import os, json
+"""
+Used to mangage files for the project
+
+Dependencies:
+    json
+    os
+"""
+
+import json
+import os
 
 class FileManager:
+    """Used to open, save, list, convert, and general utility for files in the project.
+        
+        Aids in seperating any coupling between modules in project.
+
+        Attributes:
+            None
+    """
     def get_file_names(self, dir:str = "ImageData"):
-        """
-        Gets all file names in dir
+        """Gets all file names in dir.
+
+            Equivalent to os.listdir(). 
+            Redudandnt property and should be depreciated.
+
+            Args:
+                dir: directory for which it looks in
+
+            Returns:
+                All file names present in the directory as a list
         """
         return os.listdir(dir)
 
     def image_to_bytes(self, src_dir:str = "ImageData", file_names:list = None):
-        """
-        Converts file_names into bytes so it can be sent to Rekog Client.
-        Returns dictionary where keys are file paths and
-        values are the keys respective bytes.
+        """Converts file_names into bytes so it can be sent to Rekog Client.
+        
+            Args:
+                src_dir: Directory in which files are located
+                file_names: Names of files to be converted to bytes
+            Returns:
+                dictionary where keys are file paths and 
+                values are the keys respective bytes.
         """
         byte_imgs = dict()
         for fname in file_names:
@@ -21,8 +49,16 @@ class FileManager:
         return byte_imgs
 
     def file_count_warning(self, file_count:int):
-        """
-        Checks with the user if they want to proceed with processing images
+        """Checks with the user if they want to proceed with processing images.
+
+            Helps in accidently requesting too many images and incurring unwanted
+            costs.
+
+            Args:
+                file_count: number of files to be processed
+            
+            Return:
+                True if user wants to continue, False otherwise
         """
         print("You are about to process ", file_count, " images!")
         user_response = input("Would you like to proceed? (Y/N) ")
@@ -35,8 +71,11 @@ class FileManager:
             return False
 
     def to_json(self, json_dict:dict, dir_name:str):
-        """
-        Converts a dictionary into json format and saves it in dir_name/fname
+        """Converts and saves dictionary into json format.
+
+            Args:
+                json_dict: dictionary to be converted to json format
+                dir_name: location for where the file will be saved
         """
         json_string = json.dumps(json_dict, sort_keys=True, indent=4, 
             separators=(',',':'))
@@ -51,6 +90,14 @@ class FileManager:
         print("Response saved to " + dir_name + f"Labels-000{i}.json")
 
     def load_labelled_data(self, dir_name:str):
+        """Loads in previously labelled data as a dictionary
+
+            Args:
+                dir_name: directory containing all labelled JSON files
+
+            Returns:
+                Dictionary containing all the labelled data
+        """
         fnames = self.get_file_names(dir_name)
         labelled_data = dict()
         for f in fnames:
