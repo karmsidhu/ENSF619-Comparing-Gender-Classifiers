@@ -1,7 +1,7 @@
 """
 Script to aid in labelling images
 
-Was created to help a face by race but was unused due to a heavy uneven
+Was created to help label a face by race but was unused due to a heavy uneven
 distribution in the dataset
 
 Dependencies:
